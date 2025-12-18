@@ -40,4 +40,26 @@ def intersectionAreaRect(first, second):
 
     return (right - left) * (top - bottom)
 
-print(intersectionAreaRect([(-3, 1), (9, 10)], [(-7, 0), (13, 12)]))
+def intersectionAreaMultiRect(rectangles):
+    if len(rectangles) < 2:
+        return 0
+
+    for rect in rectangles:
+        if not isCorrectRect(rect):
+            raise RectCorrectError("Некорректный прямоугольник")
+
+    left = rectangles[0][0][0]
+    bottom = rectangles[0][0][1]
+    right = rectangles[0][1][0]
+    top = rectangles[0][1][1]
+
+    for rect in rectangles[1:]:
+        left = max(left, rect[0][0])
+        bottom = max(bottom, rect[0][1])
+        right = min(right, rect[1][0])
+        top = min(top, rect[1][1])
+
+    if left >= right or bottom >= top:
+        return 0
+
+    return (right - left) * (top - bottom)
